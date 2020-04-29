@@ -112,7 +112,7 @@ hoarSort(A)
 print(A)
 '''
 
-
+'''
 # There are different ways to do a Quick Sort partition, this implements the
 # Hoare partition scheme. Tony Hoare also created the Quick Sort algorithm.
 def partition(nums, low, high):
@@ -162,18 +162,182 @@ random_list_of_nums = [22, 5, 33, 1, 18, 101, 99]
 quick_sort(random_list_of_nums)
 print(random_list_of_nums)
 
+'''
 
+#бинарный поиск в отсортированном массиве
 
+def leftBoundary(A, key):
+	left = -1
+	right = len(A)
+	while right - left > 1:
+		mid = (left + right) // 2
+		if A[mid] < key:
+			left = mid
+		else:
+			right = mid
+	return left
 
+def rightBoundary(A, key):
+	left = -1
+	right = len(A)
+	while right - left > 1:
+		mid = (left + right) // 2
+		if A[mid] <= key:
+			left = mid
+		else:
+			right = mid
+	return right
 
+def fib(n):
+	''' асимптотика алгоритма ой какая большая
+	не дело кароч'''
+	if n <= 1:
+		return n
+	return (fib(n-1) + fib(n - 2))
 
+def countTrajectories(n, allowed:list):
+	'''Исполнитель кузнечик может передвигать 3 способами:
+	1) +1 клеточка      2) +2 клеточки     3) +3 клеточки
+	Существуют клетки на которые кузнечик наступать не может
+	Нужно найти всевозможные пути в клеточку N
+	'''
+	K = [0, 1, int(allowed[2])] + [0] * (n - 3)
+	for i in range(3, n + 1):
+		if allowed[i]:
+			K[i] = K[i-1] + K[i-2] + K[i-3]
+	return K[n]
 
+def countMinCost(n, price:list):
+	'''Исполнитель кузнечик может передвигать двумя способами:
+	1) +1 клеточка      2) +2 клеточки
+	У каждой клеточки своя стоимость
+	Нужно найти минимальную стоимость прохода до N начиная с 1
+	'''
+	# add allowed:list
+	C = [float("-inf"), price[1], price[1] + price[2]] + [0] * (n - 2)
+	for i in range(3, n + 1):
+		C[i] = price[i] + min(C[i - 1], C[i - 2])
+	return C[n]
 
+def countMinCostWithAllowed(n, price:list, allowed:list):
+	'''Исполнитель кузнечик может передвигать двумя способами:
+	1) +1 клеточка      2) +2 клеточки
+	У каждой клеточки своя стоимость
+	Существуют клетки на которые кузнечик наступать не может
+	Нужно найти минимальную стоимость прохода до N начиная с 1
+	'''
+	C = [float("-inf"), price[1], price[1] + price[2] if allowed[2] else 0] + [0] * (n - 2)
+	for i in range(3, n + 1):
+		if allowed[i]:
+			C[i] = price[i] + min(C[i - 1], C[i - 2])
+	return C[n]
 
+f1 = [1, 5, 0, 5, 1, 5, 2, 3, 4]
+f2 = range(10)
 
+def lcs(A, B):
+	#Вывести саму подпоследовательность
+	F = [[0] * (len(B) + 1) for i in range(len(A) + 1)]
+	for i in range(1, len(A) + 1):
+		for j in range(1, len(B) + 1):
+			if A[i-1] == B[j-1]:
+				F[i][j] = 1 + F[i-1][j-1]
+			else:
+				F[i][j] = max(F[i][j-1], F[i-1][j])
+	print('\n'.join([''.join(['{:4}'.format(item) for item in row]) 
+      for row in F]))
+	return F[-1][-1]
 
+print(lcs(f1, f2))
 
+#https://youtu.be/m4HOkVeN4Mo?t=626
 
+''' quest1
+a = []
+s, res = 0, 0
+n = int(input())
+for i in range(n):
+	a.append(int(input()))
+	s += a[i]
+s /= n
+for i in range(n):
+	if a[i] > s:
+		res += 1
+print(res)
+'''
+
+'''quest2
+a=[]
+n=30
+for i in range (n):
+    a.append(int(input()))
+x=int(input())
+for i in range (n):
+    if x==a[i]:
+        print(i)
+        break
+'''
+
+'''quest3
+a = []
+n = int(input())
+for i in range(n):
+	a.append(int(input()))
+m1, m2 = a[i], 0
+for i in range(n):
+	if m1 < a[i]:
+		m1 = a[i]
+		m2 = m1
+	elif m2 < a[i] and m1 != a[i]:
+		m2 = a[i]
+print(m2)'''
+
+'''quest 4
+a=[]
+n=5
+k=0
+for i in range (n):
+    a.append(int(input()))
+for i in range (n):
+    if a[i]>0:
+        k+=1
+    if k==3:
+        print(i)
+        break
+'''
+'''quest5
+a = []
+n = int(input())
+s1, s2 = 0, 0
+for i in range(0, n):
+	a.append(int(input()))
+l1, l2 = 1, 0
+for i in range(1, n):
+	if a[i] > a[i - 1]:
+		l1 += 1
+		s1 += a[i]
+	elif l2 < l1:
+		l2 = l1
+		s2 = s1
+		l1 = 1
+		s1 = a[i]
+print(s2)
+'''
+
+'''quest6
+a = []
+n = int(input())
+s = 0
+for i in range(0, n):
+	a.append(int(input()))
+	s += a[i]
+s /= n
+k = 0
+for i in range(1, n):
+	if abs(a[i] - s) < abs(a[k] - s):
+		k = i
+print(k)
+'''
 
 
 ''' telegram bot
