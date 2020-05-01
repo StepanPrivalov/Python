@@ -165,7 +165,6 @@ print(random_list_of_nums)
 '''
 
 #бинарный поиск в отсортированном массиве
-
 def leftBoundary(A, key):
 	left = -1
 	right = len(A)
@@ -188,12 +187,6 @@ def rightBoundary(A, key):
 			right = mid
 	return right
 
-def fib(n):
-	''' асимптотика алгоритма ой какая большая
-	не дело кароч'''
-	if n <= 1:
-		return n
-	return (fib(n-1) + fib(n - 2))
 
 def countTrajectories(n, allowed:list):
 	'''Исполнитель кузнечик может передвигать 3 способами:
@@ -232,11 +225,11 @@ def countMinCostWithAllowed(n, price:list, allowed:list):
 			C[i] = price[i] + min(C[i - 1], C[i - 2])
 	return C[n]
 
-f1 = [1, 5, 0, 5, 1, 5, 2, 3, 4]
+f1 = [0, 1, 8, 5, 1, 2]
 f2 = range(10)
 
 def lcs(A, B):
-	#Вывести саму подпоследовательность
+	#Выводит саму подпоследовательность и ее длину
 	F = [[0] * (len(B) + 1) for i in range(len(A) + 1)]
 	for i in range(1, len(A) + 1):
 		for j in range(1, len(B) + 1):
@@ -246,103 +239,56 @@ def lcs(A, B):
 				F[i][j] = max(F[i][j-1], F[i-1][j])
 	print('\n'.join([''.join(['{:4}'.format(item) for item in row]) 
       for row in F]))
+	f = F[-1][-1]
+	nums = []
+	i = len(A) 
+	j = len(B) 
+	while True:
+		if j == 0 or i == 0:
+			break
+		if F[i][j - 1] == f:
+			j -= 1
+		elif F[i - 1][j] == f:
+			i -= 1
+		else:
+			nums.append(A[i - 1])
+			i -= 1
+			j -= 1
+			f = F[i][j]
+	print(*nums[::-1])
+			
 	return F[-1][-1]
-
 print(lcs(f1, f2))
+
+def gis(A):
+	#НВП - наибольшая возрастающая подпоследовательность
+	F = [0] * (len(A))
+	for i in range(len(A)):
+		m = 0
+		for j in range(i):
+			if A[i] > A[j] and F[j] > m:
+				m = F[j]
+				print(m + 1, "(", A[i], A[j], ")",  end = ", ")
+		F[i] += m + 1
+	return F[len(A) - 1]
 
 #https://youtu.be/m4HOkVeN4Mo?t=626
 
-''' quest1
-a = []
-s, res = 0, 0
-n = int(input())
-for i in range(n):
-	a.append(int(input()))
-	s += a[i]
-s /= n
-for i in range(n):
-	if a[i] > s:
-		res += 1
-print(res)
-'''
-
-'''quest2
-a=[]
-n=30
-for i in range (n):
-    a.append(int(input()))
-x=int(input())
-for i in range (n):
-    if x==a[i]:
-        print(i)
-        break
-'''
-
-'''quest3
-a = []
-n = int(input())
-for i in range(n):
-	a.append(int(input()))
-m1, m2 = a[i], 0
-for i in range(n):
-	if m1 < a[i]:
-		m1 = a[i]
-		m2 = m1
-	elif m2 < a[i] and m1 != a[i]:
-		m2 = a[i]
-print(m2)'''
-
-'''quest 4
-a=[]
-n=5
-k=0
-for i in range (n):
-    a.append(int(input()))
-for i in range (n):
-    if a[i]>0:
-        k+=1
-    if k==3:
-        print(i)
-        break
-'''
-'''quest5
-a = []
-n = int(input())
-s1, s2 = 0, 0
-for i in range(0, n):
-	a.append(int(input()))
-l1, l2 = 1, 0
-for i in range(1, n):
-	if a[i] > a[i - 1]:
-		l1 += 1
-		s1 += a[i]
-	elif l2 < l1:
-		l2 = l1
-		s2 = s1
-		l1 = 1
-		s1 = a[i]
-print(s2)
-'''
-
-'''quest6
-a = []
-n = int(input())
-s = 0
-for i in range(0, n):
-	a.append(int(input()))
-	s += a[i]
-s /= n
-k = 0
-for i in range(1, n):
-	if abs(a[i] - s) < abs(a[k] - s):
-		k = i
-print(k)
-'''
 
 
-''' telegram bot
-import telebot
-bot = telebot.TeleBot("TOKEN")
-token u receive from botFather in telegram while creating a new bot'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
