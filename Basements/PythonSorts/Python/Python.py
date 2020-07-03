@@ -164,6 +164,36 @@ print(random_list_of_nums)
 
 '''
 
+
+'''
+a = int(input("Enter number: "))
+count = 0
+temp = a
+while temp > 0:
+	count += 1
+	temp //= 10
+num = [0] * count
+count -= 1
+i = 0
+while (count) >= 0:
+	num[count] = a // (10 ** i) % 10
+	i += 1
+	count -= 1
+
+
+res = num[0:2]
+for j in range(1, len(num) - 1):
+	temp = num[j:j+2]
+	if temp > res:
+		continue
+	else:
+		res = temp
+
+
+print(*num)
+print(*res, sep = "")
+'''
+
 #бинарный поиск в отсортированном массиве
 def leftBoundary(A, key):
 	left = -1
@@ -225,9 +255,6 @@ def countMinCostWithAllowed(n, price:list, allowed:list):
 			C[i] = price[i] + min(C[i - 1], C[i - 2])
 	return C[n]
 
-f1 = [0, 1, 8, 5, 1, 2]
-f2 = range(10)
-
 def lcs(A, B):
 	#Выводит саму подпоследовательность и ее длину
 	F = [[0] * (len(B) + 1) for i in range(len(A) + 1)]
@@ -258,7 +285,6 @@ def lcs(A, B):
 	print(*nums[::-1])
 			
 	return F[-1][-1]
-print(lcs(f1, f2))
 
 def gis(A):
 	#НВП - наибольшая возрастающая подпоследовательность
@@ -274,21 +300,99 @@ def gis(A):
 
 #https://youtu.be/m4HOkVeN4Mo?t=626
 
+def isDigitInNum(num, digit):
+	while num > 0:
+		if digit == (num % 10):
+			print("YEP")
+			return True
+		num //= 10
+	print("NOPE")
+	return False
+
+
+'''
+a = list(input())
+for i in range(len(a)):
+	a[i] = int(a[i])
+res = [0] * len(a)
+tries = 0
+
+while True:
+	count = 0
+	tries += 1
+	for i in range(len(a)):
+		if res[i] == a[i]:
+			count += 1
+	if count == len(a):
+		break
 
 
 
 
+	if res[-1] == 9:
+		if res[-2] == 9:
+			if res[-3] == 9:
+				res[-3] = 0
+				res[0] += 1
+			else:
+				res[-2] = 0
+				res[-3] += 1
+		else:
+			res[-1] = 0
+			res[-2] += 1
+	else:
+		res[-1] += 1
+
+	
+print(*res)
+print("All tries -", tries)
+'''
 
 
 
+def MagickCube():
+	sum, temp = 0, 0
+	n = int(input("Enter the length of cube:"))
 
+	cube = [[0] * n for i in range(n)]
+	for i in range(n):
+		for j in range(n):
+			cube[i][j] = int(input())
+		sum += cube[i][i]
 
+	for row in cube:#chek sum in row
+		for elem in row:
+			temp += elem
+		if temp != sum:
+			print("Nope")
+			return "Nope"
+		temp = 0
 
+	for j in range(n):#check sum in column
+		for i in range(n):
+			temp += cube[i][j]
+		if temp != sum:
+			print("Nope")
+			return "Nope"
+		temp = 0
 
+#and 2 diagonals 
+	for i in range(n):
+		temp += cube[i][i]
 
+	if temp != sum:
+			return "Nope"
+	temp = 0
 
+	for i in range(n - 1, -1, -1):
+		temp += cube[i][i]
 
+	if temp != sum:
+			return "Nope"
+	temp = 0
 
+	for row in cube:
+		print(' '.join([str(elem) for elem in row]))
+	print("Yep")
 
-
-
+MagickCube()
