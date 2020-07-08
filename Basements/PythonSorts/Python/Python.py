@@ -395,4 +395,19 @@ def MagickCube():
 		print(' '.join([str(elem) for elem in row]))
 	print("Yep")
 
-MagickCube()
+#This func must find pairs of nums that can be // 2 but not // 4 from the array of n nums
+def ArraysNum(arr:list):
+	count = 0
+	for i in range(len(arr) - 1):
+		if arr[i] % 2 == 0 and arr[i + 1] % 2 == 0:
+			if arr[i] % 4 != 0 and arr[i + 1] % 4 != 0:
+				count += 1
+				print("dolbaeb")
+	return count
+
+def CheckForArraysNum():
+	print(ArraysNum([2, 4, 8, 12, 5]))
+	print(ArraysNum([10, 22, 2, 12, 20]))
+	print(ArraysNum([50, 10, 2, 14, 6]))
+
+CheckForArraysNum()
